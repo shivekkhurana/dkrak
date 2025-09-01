@@ -1,0 +1,16 @@
+{
+  "name": "bitcoin-weekly-dca",
+  "description": "Weekly Bitcoin DCA strategy",
+  "dca": {
+    "pair": "BTCEUR",
+    "amount_usd": 0.1,
+    "low_balance_threshold_usd": 10
+  },
+  "schedule": {
+    "cron": "*/30 * * * *",
+    "timezone": "Asia/Kolkata"
+  },
+  "notifications": {
+    "ntfy_topic": "shivekkhurana-kraken-dca"
+  }
+}
