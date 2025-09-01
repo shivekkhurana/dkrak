@@ -30,8 +30,7 @@ const plistContent = `<?xml version="1.0" encoding="UTF-8"?>
     <array>
         <string>/usr/local/bin/bun</string>
         <string>run</string>
-        <string>src/cli.ts</string>
-        <string>run</string>
+        <string>dca</string>
 ${configs.map((config) => `        <string>${config}</string>`).join("\n")}
     </array>
     

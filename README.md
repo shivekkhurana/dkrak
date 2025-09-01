@@ -24,6 +24,8 @@ This script achieves the same effect, but without the fee.
 # Kraken API credentials
 KRAKEN_API_KEY=your_kraken_api_key
 KRAKEN_API_SECRET=your_kraken_api_secret
+
+NTFY_TOPIC=topic_to_send_status_updates_on
 ```
 
 ### Strategy Configuration Files
@@ -48,16 +50,6 @@ Each DCA strategy is defined in a JSON configuration file. Example:
   }
 }
 ```
-
-## Cron Schedule Examples
-
-| Schedule         | Cron Expression | Description                   |
-| ---------------- | --------------- | ----------------------------- |
-| Daily at 9 AM    | `0 9 * * *`     | Every day at 9:00 AM          |
-| Weekly on Monday | `0 10 * * 1`    | Every Monday at 10:00 AM      |
-| Twice daily      | `0 9,18 * * *`  | 9 AM and 6 PM daily           |
-| Monthly          | `0 10 1 * *`    | 1st of each month at 10:00 AM |
-| Weekdays only    | `0 9 * * 1-5`   | Monday to Friday at 9:00 AM   |
 
 ## Setup Instructions
 
@@ -106,17 +98,17 @@ Each DCA strategy is defined in a JSON configuration file. Example:
 
    ```bash
    # Generate service file with your configs
-   bun run service:generate configs/bitcoin-weekly.json configs/ethereum-daily.json
+   bun service:generate configs/bitcoin-weekly.json configs/ethereum-daily.json
 
    # Install and start the service
-   bun run service:install
-   bun run service:start
+   bun service:install
+   bun service:start
 
    # Check service status
-   bun run service:status
+   bun service:status
 
    # View logs
-   bun run service:logs
+   bun service:logs
    ```
 
 ## CLI Usage
@@ -135,32 +127,23 @@ The bot includes a powerful CLI interface built with Commander.js for managing m
 
 ```bash
 # Get help
-bun run cli --help
-
-# List available configurations
-bun run cli list
-
-# Run specific strategies
-bun run cli run configs/bitcoin-weekly.json configs/ethereum-daily.json
-
-# Run with verbose output
-bun run cli run configs/bitcoin-weekly.json --verbose
-
-# Run all available strategies (no arguments)
-bun run cli run
+bun cli --help
 
 # Run strategies sequentially
-bun run cli run configs/bitcoin-weekly.json configs/ethereum-daily.json --sequential
+bun dca configs/bitcoin-weekly.json configs/ethereum-daily.json --sequential
 
 # Validate a configuration file
-bun run cli validate configs/bitcoin-weekly.json
+bun cli validate configs/bitcoin-weekly.json
 
 # Convenience scripts (same as above)
-bun run list
-bun run run configs/bitcoin-weekly.json
-bun run run configs/bitcoin-weekly.json configs/ethereum-daily.json
-bun run run
-bun run validate configs/bitcoin-weekly.json
+bun cli list
+bun dca configs/bitcoin-weekly.json
+
+# DCA can take multiple configs
+bun dca configs/bitcoin-weekly.json configs/ethereum-daily.json
+
+## Validate config files
+bun cli validate configs/bitcoin-weekly.json
 ```
 
 ## Service Management
@@ -229,49 +212,11 @@ bun run service:logs:error
 }
 ```
 
-### Ethereum Daily DCA
-
-```json
-{
-  "name": "ethereum-daily-dca",
-  "description": "Daily Ethereum DCA strategy",
-  "dca": {
-    "pair": "ETHUSD",
-    "amount_usd": 500,
-    "low_balance_threshold_usd": 500
-  },
-  "schedule": {
-    "cron": "0 9 * * *",
-    "timezone": "America/New_York"
-  },
-  "notifications": {
-    "ntfy_topic": "my-kraken-dca"
-  }
-}
-```
-
 ## Notifications
 
-The bot sends notifications for:
+The bot sends notifications using https://ntfy.sh. You can install the app and configure a channel in .env.
 
-- ✅ **Successful purchases** - Order completion with details
-- ⚠️ **Low balance warnings** - When USD balance is insufficient
-- ❌ **Errors** - API errors or other issues
-
-All notifications include relevant tags for easy filtering:
-
-- `dca` - All DCA-related notifications
-- `kraken` - Kraken-specific notifications
-- `success` - Successful operations
-- `warning` - Warning notifications
-- `error` - Error notifications
-
-## Safety Features
-
-- **Balance Check**: Verifies sufficient USD before placing orders
-- **Market Orders**: Uses market orders for immediate execution
-- **Error Handling**: Comprehensive error catching and reporting
-- **Validation**: Validates all configuration parameters on startup
+A channel is required.
 
 ## Troubleshooting
 
@@ -304,15 +249,3 @@ The bot provides detailed logging:
 - Configuration summary on startup
 - Balance checks and order status
 - Notification delivery confirmations
-- Error details with stack traces
-
-## Security Notes
-
-- Keep your Kraken API credentials secure
-- Use API keys with trading permissions only (not withdrawal)
-- Consider using a dedicated Kraken account for DCA
-- Regularly monitor your ntfy.sh topic for unauthorized access
-
-## License
-
-Private - For personal use only.

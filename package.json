@@ -6,12 +6,12 @@
   "scripts": {
     "cli": "bun run src/cli.ts",
     "dca": "bun run src/tasks/dca.ts",
-    "service:install": "lunchy install com.kraken.dca.plist",
-    "service:uninstall": "lunchy uninstall com.kraken.dca",
-    "service:start": "lunchy start com.kraken.dca",
-    "service:stop": "lunchy stop com.kraken.dca",
-    "service:restart": "lunchy restart com.kraken.dca",
-    "service:status": "lunchy status com.kraken.dca",
+    "service:install": "launchctl load ~/Library/LaunchAgents/com.kraken.dca.plist",
+    "service:uninstall": "launchctl unload ~/Library/LaunchAgents/com.kraken.dca.plist",
+    "service:start": "launchctl start com.kraken.dca",
+    "service:stop": "launchctl stop com.kraken.dca",
+    "service:restart": "launchctl stop com.kraken.dca && launchctl start com.kraken.dca",
+    "service:status": "launchctl list | grep com.kraken.dca",
     "service:logs": "tail -f logs/dca.log",
     "service:logs:error": "tail -f logs/dca-error.log",
     "service:generate": "bun run src/tasks/generate-service.ts"
