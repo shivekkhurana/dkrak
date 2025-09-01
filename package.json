@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "cli": "bun run src/cli.ts",
+    "dca": "bun run src/tasks/dca.ts",
     "service:install": "lunchy install com.kraken.dca.plist",
     "service:uninstall": "lunchy uninstall com.kraken.dca",
     "service:start": "lunchy start com.kraken.dca",
@@ -13,7 +14,7 @@
     "service:status": "lunchy status com.kraken.dca",
     "service:logs": "tail -f logs/dca.log",
     "service:logs:error": "tail -f logs/dca-error.log",
-    "service:generate": "bun run tasks/generate-service.ts"
+    "service:generate": "bun run src/tasks/generate-service.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -24,6 +25,8 @@
   "dependencies": {
     "commander": "^14.0.0",
     "dotenv": "^17.2.1",
-    "node-cron": "^4.2.1"
+    "node-cron": "^4.2.1",
+    "pino": "^9.9.0",
+    "pino-pretty": "^13.1.1"
   }
 }

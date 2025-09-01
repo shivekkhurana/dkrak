@@ -11,7 +11,7 @@
         <string>run</string>
         <string>src/cli.ts</string>
         <string>run</string>
-        <string>configs/bitcoin-weekly.json</string>
+        <string>./configs/bitcoin-test.json</string>
     </array>
     
     <key>WorkingDirectory</key>

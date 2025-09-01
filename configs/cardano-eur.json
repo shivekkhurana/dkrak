@@ -1,0 +1,14 @@
+{
+  "name": "cardano-eur-dca",
+  "description": "Weekly Cardano DCA strategy using EUR",
+  "dca": {
+    "pair": "ADAUSD",
+    "amount": 500,
+    "currency": "EUR",
+    "low_balance_threshold": 750
+  },
+  "schedule": {
+    "cron": "0 14 * * 3",
+    "timezone": "Europe/Berlin"
+  }
+}

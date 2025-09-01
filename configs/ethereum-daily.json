@@ -1,0 +1,14 @@
+{
+  "name": "ethereum-daily-dca",
+  "description": "Daily Ethereum DCA strategy",
+  "dca": {
+    "pair": "ETHUSD",
+    "amount": 100,
+    "currency": "USD",
+    "low_balance_threshold": 200
+  },
+  "schedule": {
+    "cron": "0 9 * * *",
+    "timezone": "UTC"
+  }
+}

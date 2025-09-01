@@ -1,0 +1,41 @@
+# Cursor Rules for Kraken DCA Bot
+
+## Type Organization
+
+- **ALWAYS** define types in separate `.types.ts` files, not in the main implementation files
+- **NEVER** define interfaces or types directly in `.ts` files that contain business logic
+- **ALWAYS** use the pattern: `module.types.ts` for type definitions and `module.ts` for implementation
+- **ALWAYS** import types using: `import type { TypeName } from "@src/domain/module.types"`
+
+## File Structure Rules
+
+- Types should be co-located with their related modules in the same directory
+- Use `@src/` alias for all imports (configured in tsconfig.json)
+- Domain types go in `src/domain/` directory
+- Feature-specific types go in `src/` directory (e.g., `dca.types.ts`)
+
+## Examples of Correct Structure:
+
+- `src/domain/kraken.ts` + `src/domain/kraken.types.ts`
+- `src/domain/notify.ts` + `src/domain/notify.types.ts`
+- `src/dca.ts` + `src/dca.types.ts`
+- `src/config.ts` + `src/config.types.ts` (if needed)
+
+## Import Patterns:
+
+```typescript
+// ✅ CORRECT
+import type { NotificationConfig } from "@src/domain/notify.types";
+import type { KrakenConfig } from "@src/domain/kraken.types";
+import type { DCAStrategyConfig } from "@src/tasks/dca.types";
+
+// ❌ WRONG - Don't define types in implementation files
+export interface SomeType { ... } // in .ts files
+```
+
+## Code Quality
+
+- Use Bun instead of Node.js/npm
+- Prefer absolute imports with `@src/` alias
+- Keep types and implementation separate
+- Use TypeScript strict mode

@@ -2,6 +2,11 @@
 
 A Bun + TypeScript script for automated Dollar Cost Averaging (DCA) on Kraken with configurable strategies and ntfy.sh notifications.
 
+## Why ?
+
+DCA requires discipline. And Kraken integrated DCA charges a percentage of the purchase as fee.
+This script achieves the same effect, but without the fee.
+
 ## Features
 
 - 🔄 **Automated DCA**: Buy cryptocurrency at regular intervals
@@ -46,64 +51,70 @@ Each DCA strategy is defined in a JSON configuration file. Example:
 
 ## Cron Schedule Examples
 
-| Schedule | Cron Expression | Description |
-|----------|----------------|-------------|
-| Daily at 9 AM | `0 9 * * *` | Every day at 9:00 AM |
-| Weekly on Monday | `0 10 * * 1` | Every Monday at 10:00 AM |
-| Twice daily | `0 9,18 * * *` | 9 AM and 6 PM daily |
-| Monthly | `0 10 1 * *` | 1st of each month at 10:00 AM |
-| Weekdays only | `0 9 * * 1-5` | Monday to Friday at 9:00 AM |
+| Schedule         | Cron Expression | Description                   |
+| ---------------- | --------------- | ----------------------------- |
+| Daily at 9 AM    | `0 9 * * *`     | Every day at 9:00 AM          |
+| Weekly on Monday | `0 10 * * 1`    | Every Monday at 10:00 AM      |
+| Twice daily      | `0 9,18 * * *`  | 9 AM and 6 PM daily           |
+| Monthly          | `0 10 1 * *`    | 1st of each month at 10:00 AM |
+| Weekdays only    | `0 9 * * 1-5`   | Monday to Friday at 9:00 AM   |
 
 ## Setup Instructions
 
 1. **Install Dependencies**
+
    ```bash
    bun install
    ```
 
 2. **Set up ntfy.sh**
+
    - Go to [ntfy.sh](https://ntfy.sh)
    - Create a new topic
    - Subscribe to the topic on your mobile device
 
 3. **Configure Environment Variables**
+
    ```bash
    # Create .env file
    cp env.example .env
-   
+
    # Edit with your values
    vim .env
-   
+
    # Note: .env file is automatically loaded when using the CLI
    ```
 
 4. **Create Strategy Configurations**
+
    ```bash
    # Copy example config
    cp config.example.json configs/my-strategy.json
-   
+
    # Edit the configuration
    vim configs/my-strategy.json
    ```
 
 5. **Run the Bot**
+
    ```bash
    # Or use the CLI
    bun run cli run configs/my-strategy.json
    ```
 
 6. **Set up as a Service (Optional)**
+
    ```bash
    # Generate service file with your configs
    bun run service:generate configs/bitcoin-weekly.json configs/ethereum-daily.json
-   
+
    # Install and start the service
    bun run service:install
    bun run service:start
-   
+
    # Check service status
    bun run service:status
-   
+
    # View logs
    bun run service:logs
    ```
@@ -198,6 +209,7 @@ bun run service:logs:error
 ## Example Configurations
 
 ### Bitcoin Weekly DCA
+
 ```json
 {
   "name": "bitcoin-weekly-dca",
@@ -218,6 +230,7 @@ bun run service:logs:error
 ```
 
 ### Ethereum Daily DCA
+
 ```json
 {
   "name": "ethereum-daily-dca",
@@ -246,6 +259,7 @@ The bot sends notifications for:
 - ❌ **Errors** - API errors or other issues
 
 All notifications include relevant tags for easy filtering:
+
 - `dca` - All DCA-related notifications
 - `kraken` - Kraken-specific notifications
 - `success` - Successful operations
@@ -264,14 +278,17 @@ All notifications include relevant tags for easy filtering:
 ### Common Issues
 
 1. **"Missing required env var"**
+
    - Ensure all required environment variables are set
    - Check your `.env` file exists and is properly formatted
 
 2. **"Invalid cron expression"**
+
    - Verify your cron expression has 5 parts: `minute hour day month weekday`
    - Use a cron validator to check your expression
 
 3. **"Invalid DCA_USD"**
+
    - DCA amount must be a positive number
    - Minimum value is $1
 
@@ -283,6 +300,7 @@ All notifications include relevant tags for easy filtering:
 ### Logs
 
 The bot provides detailed logging:
+
 - Configuration summary on startup
 - Balance checks and order status
 - Notification delivery confirmations

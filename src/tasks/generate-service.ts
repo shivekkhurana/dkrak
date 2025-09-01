@@ -3,17 +3,15 @@
 
 import { writeFileSync } from "fs";
 import { join } from "path";
+import { createLogger } from "@src/logger";
+
+const logger = createLogger("generate-service");
 
 const args = process.argv.slice(2);
 const configs = args;
 
 if (configs.length === 0) {
-  console.error("Usage: bun run tasks/generate-service.ts <config1> <config2> ...");
-  console.error("");
-  console.error("Examples:");
-  console.error("  bun run tasks/generate-service.ts configs/bitcoin-weekly.json");
-  console.error("  bun run tasks/generate-service.ts configs/bitcoin-weekly.json configs/ethereum-daily.json");
-  console.error("  bun run tasks/generate-service.ts configs/*.json");
+  logger.error("No configuration files provided");
   process.exit(1);
 }
 
@@ -34,7 +32,7 @@ const plistContent = `<?xml version="1.0" encoding="UTF-8"?>
         <string>run</string>
         <string>src/cli.ts</string>
         <string>run</string>
-${configs.map(config => `        <string>${config}</string>`).join('\n')}
+${configs.map((config) => `        <string>${config}</string>`).join("\n")}
     </array>
     
     <key>WorkingDirectory</key>
@@ -70,16 +68,4 @@ ${configs.map(config => `        <string>${config}</string>`).join('\n')}
 const plistPath = join(cwd, "com.kraken.dca.plist");
 writeFileSync(plistPath, plistContent);
 
-console.log("✅ Generated plist file:", plistPath);
-console.log("📋 Configurations included:");
-configs.forEach(config => console.log(`   - ${config}`));
-console.log("");
-console.log("🚀 To install and start the service:");
-console.log("   bun run service:install");
-console.log("   bun run service:start");
-console.log("");
-console.log("📊 To check service status:");
-console.log("   bun run service:status");
-console.log("");
-console.log("📝 To view logs:");
-console.log("   bun run service:logs");
+logger.info({ plistPath, configs }, "Generated plist file");

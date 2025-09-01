@@ -1,0 +1,14 @@
+{
+  "name": "bitcoin-weekly-dca",
+  "description": "Weekly Bitcoin DCA strategy",
+  "dca": {
+    "pair": "XBTUSD",
+    "amount": 1000,
+    "currency": "USD",
+    "low_balance_threshold": 1500
+  },
+  "schedule": {
+    "cron": "0 10 * * 1",
+    "timezone": "Asia/Kolkata"
+  }
+}

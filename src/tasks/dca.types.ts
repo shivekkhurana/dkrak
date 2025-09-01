@@ -1,7 +1,8 @@
 export interface DCAConfig {
   pair: string;
-  amount_usd: number;
-  low_balance_threshold_usd: number;
+  amount: number;
+  currency: string; // The currency to buy with (e.g., "USD", "EUR", "USDT")
+  low_balance_threshold: number;
 }
 
 export interface ScheduleConfig {
@@ -9,14 +10,9 @@ export interface ScheduleConfig {
   timezone: string;
 }
 
-export interface NotificationConfig {
-  ntfy_topic: string;
-}
-
 export interface DCAStrategyConfig {
   name: string;
   description: string;
   dca: DCAConfig;
   schedule: ScheduleConfig;
-  notifications: NotificationConfig;
 }
